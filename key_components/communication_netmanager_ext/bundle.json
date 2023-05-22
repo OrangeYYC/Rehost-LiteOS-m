@@ -1,0 +1,107 @@
+{
+    "name": "@ohos/netmanager_ext",
+    "version": "3.1.0",
+    "description": "net manager extensive service",
+    "publishAs": "code-segment",
+    "homePage": "https://gitee.com/openharmony",
+    "repository": "https://gitee.com/openharmony/communication_netmanager_ext",
+    "license": "Apache License 2.0",
+    "language": "",
+    "private": false,
+    "scripts": {},
+    "envs": [],
+    "dirs": [],
+    "author": {},
+    "contributors": [],
+    "segment": {
+        "destPath": "foundation/communication/netmanager_ext"
+    },
+    "component": {
+        "name": "netmanager_ext",
+        "subsystem": "communication",
+        "syscap": [
+            "SystemCapability.Communication.NetManager.Ethernet",
+            "SystemCapability.Communication.NetManager.NetSharing",
+            "SystemCapability.Communication.NetManager.MDNS",
+            "SystemCapability.Communication.NetManager.Vpn"
+        ],
+        "features": [
+            "netmanager_ext_feature_ethernet",
+            "netmanager_ext_feature_share",
+            "netmanager_ext_feature_mdns"
+        ],
+        "adapted_system_type": [
+            "standard"
+        ],
+        "rom": "250KB",
+        "ram": "500KB",
+        "deps": {
+            "components": [
+                "ipc",
+                "safwk",
+                "napi",
+                "dhcp",
+                "hiviewdfx_hilog_native",
+                "netmanager_base",
+                "libuv",
+                "eventhandler",
+                "ability_base",
+                "bluetooth",
+                "hisysevent_native",
+                "c_utils",
+                "samgr",
+                "wifi"
+            ],
+            "third_party": [
+                "node"
+            ]
+        },
+        "build": {
+            "group_type": {
+                "base_group": [
+                    "//foundation/communication/netmanager_ext:common_ext_packages"
+                ],
+                "fwk_group": [],
+                "service_group": [
+                    "//foundation/communication/netmanager_ext:ethernet_packages",
+                    "//foundation/communication/netmanager_ext:share_packages",
+                    "//foundation/communication/netmanager_ext:mdns_packages",
+                    "//foundation/communication/netmanager_ext/services/etc/init:mdnsmanager.rc",
+                    "//foundation/communication/netmanager_ext/sa_profile:mdns_manager_profile"
+                ]
+            },
+            "inner_kits": [
+                {
+                    "type": "so",
+                    "name": "//foundation/communication/netmanager_ext/interfaces/innerkits/netshareclient:net_tether_manager_if",
+                    "header": {
+                        "header_files": [
+                            "netshareclient/include/networkshare_client.h",
+                            "netshareclient/include/networkshare_constants.h",
+                            "netshareclient/include/proxy/ipccallback/sharing_event_callback_stub.h"
+                        ],
+                        "header_base": "//foundation/communication/netmanager_ext/interfaces/innerkits"
+                    }
+                },
+                {
+                    "type": "so",
+                    "name": "//foundation/communication/netmanager_ext/interfaces/innerkits/ethernetclient:ethernet_manager_if",
+                    "header": {
+                        "header_files": [
+                            "ethernetclient/include/ethernet_client.h"
+                        ],
+                        "header_base": "//foundation/communication/netmanager_ext/interfaces/innerkits"
+                    }
+                }
+            ],
+            "test": [
+                "//foundation/communication/netmanager_ext/test/ethernetmanager:unittest",
+                "//foundation/communication/netmanager_ext/test/ethernetmanager:fuzztest",
+                "//foundation/communication/netmanager_ext/test/networksharemanager:fuzztest",
+                "//foundation/communication/netmanager_ext/test/networksharemanager:unittest",
+                "//foundation/communication/netmanager_ext/test/mdnsmanager:fuzztest",
+                "//foundation/communication/netmanager_ext/test/mdnsmanager:unittest"
+            ]
+        }
+    }
+}

@@ -1,0 +1,4 @@
+ERROR at //build/lite/BUILD.gn:33:29: Could not read file.
+    product_cfg = read_file("${product_config_path}/config.json", "json")
+                            ^-----------------------------------
+I resolved this to "/config.json".

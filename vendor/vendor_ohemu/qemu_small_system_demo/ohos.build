@@ -1,0 +1,10 @@
+{
+  "parts": {
+    "product_qemu_small_system_demo": {
+      "module_list": [
+        "//vendor/ohemu/qemu_small_system_demo:qemu_small_system_demo"
+      ]
+    }
+  },
+  "subsystem": "product_qemu_small_system_demo"
+}

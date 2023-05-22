@@ -1,0 +1,10 @@
+{
+  "parts": {
+    "product_qemu_csky_mini_system_demo": {
+      "module_list": [
+        "//vendor/ohemu/qemu_csky_mini_system_demo:qemu_csky_mini_system_demo"
+      ]
+    }
+  },
+  "subsystem": "product_qemu_csky_mini_system_demo"
+}

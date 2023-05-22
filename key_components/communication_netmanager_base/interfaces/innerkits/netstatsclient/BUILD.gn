@@ -1,0 +1,102 @@
+# Copyright (c) 2021-2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("//foundation/communication/netmanager_base/netmanager_base_config.gni")
+
+config("net_stats_manager_if_config") {
+  # header file path
+  include_dirs = [
+    "$INNERKITS_ROOT/include",
+    "$INNERKITS_ROOT/netstatsclient/include/proxy",
+    "$INNERKITS_ROOT/netstatsclient/include",
+    "$INNERKITS_ROOT/netmanagernative/include",
+    "$NETSYSNATIVE_SOURCE_DIR/include/netsys",
+  ]
+
+  cflags = []
+  if (is_double_framework) {
+    cflags += [ "-DCONFIG_DUAL_FRAMEWORK" ]
+  }
+  if (target_cpu == "arm") {
+    cflags += [ "-DBINDER_IPC_32BIT" ]
+  }
+  if (is_standard_system) {
+    cflags += [ "-DCONFIG_STANDARD_SYSTEM" ]
+  }
+  if (defined(build_public_version) && build_public_version) {
+    cflags += [ "-DBUILD_PUBLIC_VERSION" ]
+  }
+}
+
+ohos_source_set("net_stats_parcel") {
+  sources = [ "$NETSTATSMANAGER_INNERKITS_SOURCE_DIR/src/net_stats_info.cpp" ]
+
+  include_dirs = [ "$INNERKITS_ROOT/netstatsclient/include" ]
+
+  deps = [ "$NETMANAGER_BASE_ROOT/utils:net_manager_common" ]
+
+  external_deps = [ "c_utils:utils" ]
+  if (is_standard_system) {
+    external_deps += [ "hiviewdfx_hilog_native:libhilog" ]
+  } else {
+    external_deps += [ "hilog:libhilog" ]
+  }
+
+  part_name = "netmanager_base"
+  subsystem_name = "communication"
+}
+
+ohos_shared_library("net_stats_manager_if") {
+  sources = [
+    "$NETSTATSMANAGER_INNERKITS_SOURCE_DIR/src/data_flow_statistics.cpp",
+    "$NETSTATSMANAGER_INNERKITS_SOURCE_DIR/src/net_stats_client.cpp",
+    "$NETSTATSMANAGER_INNERKITS_SOURCE_DIR/src/proxy/net_stats_callback_stub.cpp",
+    "$NETSTATSMANAGER_INNERKITS_SOURCE_DIR/src/proxy/net_stats_service_proxy.cpp",
+  ]
+
+  include_dirs = [
+    "$NETMANAGER_BASE_ROOT/utils/log/include",
+    "$NETSYSCONTROLLER_ROOT_DIR/include/",
+  ]
+
+  public_configs = [ ":net_stats_manager_if_config" ]
+
+  deps = [
+    ":net_stats_parcel",
+    "$NETSYSCONTROLLER_ROOT_DIR:netsys_controller",
+  ]
+
+  external_deps = [
+    "ipc:ipc_core",
+    "samgr:samgr_proxy",
+  ]
+
+  defines = [
+    "NETMGR_LOG_TAG = \"NetStatsClient\"",
+    "LOG_DOMAIN = 0xD0015B0",
+  ]
+
+  if (enable_netmgr_debug) {
+    defines += [ "NETMGR_DEBUG" ]
+  }
+
+  if (is_standard_system) {
+    external_deps += [ "hiviewdfx_hilog_native:libhilog" ]
+  } else {
+    external_deps += [ "hilog:libhilog" ]
+  }
+
+  part_name = "netmanager_base"
+  subsystem_name = "communication"
+}

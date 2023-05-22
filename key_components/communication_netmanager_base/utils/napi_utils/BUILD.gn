@@ -1,0 +1,52 @@
+# Copyright (c) 2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("//foundation/communication/netmanager_base/netmanager_base_config.gni")
+
+config("napi_utils_config") {
+  visibility = [ ":napi_utils" ]
+  include_dirs = [ "$INNERKITS_ROOT/include" ]
+}
+
+config("napi_utils_public_config") {
+  include_dirs = [
+    "include",
+    "$THIRD_PARTY_ROOT/node/src",
+  ]
+}
+
+ohos_shared_library("napi_utils") {
+  sources = [
+    "src/base_context.cpp",
+    "src/event_listener.cpp",
+    "src/event_manager.cpp",
+    "src/module_template.cpp",
+    "src/napi_utils.cpp",
+  ]
+
+  configs = [ ":napi_utils_config" ]
+
+  public_configs = [ ":napi_utils_public_config" ]
+
+  public_deps = [
+    "$ARKUI_ROOT/napi/:ace_napi",
+    "$C_UTILS_ROOT/base:utils",
+    "$NETMANAGER_BASE_ROOT/utils:net_manager_common",
+  ]
+
+  external_deps = [ "hiviewdfx_hilog_native:libhilog" ]
+
+  part_name = "netmanager_base"
+  subsystem_name = "communication"
+}

@@ -1,0 +1,12 @@
+ohos_build_compiler_specified = "gcc"
+product_path = "/home/ubuntu/Desktop/CISCN_work/liteos_m_test/vendor/vendor_ohemu/qemu_mini_system_demo"
+device_path = "/home/ubuntu/Desktop/CISCN_work/liteos_m_test/device/qemu/arm_mps2_an386/liteos_m"
+ohos_kernel_type = "liteos_m"
+enable_ohos_startup_init_feature_begetctl_liteos = true
+huks_use_lite_storage = true
+huks_use_hardware_root_key = true
+huks_config_file = "hks_config_lite.h"
+ohos_build_type = "debug"
+ohos_build_time = "1680290157952"
+ohos_build_datetime = "2023-04-01 11:15:57"
+ohos_full_compile = true

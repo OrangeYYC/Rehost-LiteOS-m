@@ -1,0 +1,9 @@
+{
+  "root_path": "/home/ubuntu/Desktop/CISCN_work/liteos_m_test",
+  "board": "arm_mps2_an386",
+  "kernel": "liteos_m",
+  "product": "qemu_mini_system_demo",
+  "product_path": "/home/ubuntu/Desktop/CISCN_work/liteos_m_test/vendor/vendor_ohemu/qemu_mini_system_demo",
+  "device_path": "/home/ubuntu/Desktop/CISCN_work/liteos_m_test/device/qemu/arm_mps2_an386/liteos_m",
+  "patch_cache": null
+}

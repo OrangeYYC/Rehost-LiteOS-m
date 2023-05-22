@@ -1,0 +1,60 @@
+# Copyright (c) 2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//foundation/communication/netmanager_ext/netmanager_ext_config.gni")
+
+group("common_ext_packages") {
+  deps = []
+  if (netmanager_ext_feature_ethernet) {
+    deps += [
+      "$NETMANAGER_EXT_ROOT/utils:net_event_report",
+      "$NETMANAGER_EXT_ROOT/utils:net_manager_ext_common",
+    ]
+  }
+}
+
+group("ethernet_packages") {
+  deps = []
+  if (netmanager_ext_feature_ethernet) {
+    deps += [
+      "$NETMANAGER_EXT_ROOT/frameworks/js/napi/ethernet:ethernet",
+      "$NETMANAGER_EXT_ROOT/interfaces/innerkits/ethernetclient:ethernet_manager_if",
+      "$NETMANAGER_EXT_ROOT/services/ethernetmanager:ethernet_interfaces",
+      "$NETMANAGER_EXT_ROOT/services/ethernetmanager:ethernet_manager",
+      "$NETMANAGER_EXT_ROOT/utils:net_event_report",
+    ]
+  }
+}
+
+group("share_packages") {
+  deps = []
+  if (netmanager_ext_feature_share) {
+    deps += [
+      "$NETMANAGER_EXT_ROOT/frameworks/js/napi/sharing:sharing",
+      "$NETMANAGER_EXT_ROOT/interfaces/innerkits/netshareclient:net_tether_manager_if",
+      "$NETMANAGER_EXT_ROOT/services/networksharemanager:net_tether_manager",
+      "$NETMANAGER_EXT_ROOT/services/networksharemanager:network_share_config",
+    ]
+  }
+}
+
+group("mdns_packages") {
+  deps = []
+  if (netmanager_ext_feature_mdns) {
+    deps += [
+      "$NETMANAGER_EXT_ROOT/frameworks/js/napi/mdns:mdns",
+      "$NETMANAGER_EXT_ROOT/interfaces/innerkits/mdnsclient:mdns_manager_if",
+      "$NETMANAGER_EXT_ROOT/services/mdnsmanager:mdns_manager",
+    ]
+  }
+}

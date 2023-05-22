@@ -1,0 +1,100 @@
+# Copyright (c) 2021-2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("//foundation/communication/netstack/netstack_config.gni")
+
+config("http_config") {
+  include_dirs = [
+    "async_context/include",
+    "async_work/include",
+    "cache/base64/include",
+    "cache/cache_constant/include",
+    "cache/cache_proxy/include",
+    "cache/cache_strategy/include",
+    "cache/lru_cache/include",
+    "constant/include",
+    "http_exec/include",
+    "http_module/include",
+    "options/include",
+    "$THIRD_PARTY_ROOT/curl/include",
+    "$NETSTACK_DIR/utils/common_utils/include",
+  ]
+
+  if (is_mingw || is_mac) {
+    cflags = [
+      "-std=c++17",
+      "-stdlib=libc++",
+    ]
+  }
+  if (is_mingw) {
+    defines = [ "WINDOWS_PLATFORM" ]
+  } else if (is_mac) {
+    defines = [ "MAC_PLATFORM" ]
+  } else if (product_name != "ohos-sdk") {
+    defines = [ "HTTP_PROXY_ENABLE" ]
+  }
+}
+
+ohos_shared_library("http") {
+  sources = [
+    "async_context/src/request_context.cpp",
+    "async_work/src/http_async_work.cpp",
+    "cache/base64/src/base64_utils.cpp",
+    "cache/cache_proxy/src/cache_proxy.cpp",
+    "cache/cache_strategy/src/http_cache_request.cpp",
+    "cache/cache_strategy/src/http_cache_response.cpp",
+    "cache/cache_strategy/src/http_cache_strategy.cpp",
+    "cache/cache_strategy/src/http_time.cpp",
+    "cache/lru_cache/src/disk_handler.cpp",
+    "cache/lru_cache/src/lru_cache.cpp",
+    "cache/lru_cache/src/lru_cache_disk_handler.cpp",
+    "constant/src/constant.cpp",
+    "http_exec/src/http_exec.cpp",
+    "http_module/src/http_module.cpp",
+    "options/src/http_request_options.cpp",
+    "options/src/http_response.cpp",
+  ]
+
+  configs = [ ":http_config" ]
+
+  deps = [ "$THIRD_PARTY_ROOT/curl:curl_shared" ]
+  if (is_mingw || is_mac) {
+    sources +=
+        [ "$NETSTACK_DIR/utils/common_utils/src/netstack_common_utils.cpp" ]
+    deps += [
+      "$ARKUI_ROOT/napi:ace_napi",
+      "$NETSTACK_DIR/utils/napi_utils:napi_utils_static",
+      "$THIRD_PARTY_ROOT/bounds_checking_function:libsec_static",
+      "$THIRD_PARTY_ROOT/jsoncpp:jsoncpp_static",
+    ]
+  } else {
+    deps += [
+      "$NETSTACK_DIR/utils:stack_utils_common",
+      "$NETSTACK_DIR/utils/napi_utils:napi_utils",
+      "$THIRD_PARTY_ROOT/jsoncpp:jsoncpp",
+    ]
+    external_deps = [
+      "c_utils:utils",
+      "hiviewdfx_hilog_native:libhilog",
+      "napi:ace_napi",
+    ]
+    if (product_name != "ohos-sdk") {
+      external_deps += [ "init:libbegetutil" ]
+    }
+  }
+
+  relative_install_dir = "module/net"
+  part_name = "netstack"
+  subsystem_name = "communication"
+}

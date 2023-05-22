@@ -1,0 +1,56 @@
+{
+    "product_name": "qemu_mini_system_demo",
+    "ohos_version": "OpenHarmony 1.0",
+    "type":"mini",
+    "version": "3.0",
+    "device_company": "qemu",
+    "board": "arm_mps2_an386",
+    "kernel_type": "liteos_m",
+    "kernel_version": "3.0.0",
+    "subsystems": [
+      {
+        "subsystem": "kernel",
+        "components": [
+          { "component": "liteos_m", "features":[] }
+        ]
+      },
+      {
+        "subsystem": "hiviewdfx",
+        "components": [
+          { "component": "hievent_lite", "features":[] }
+        ]
+      },
+      {
+        "subsystem": "systemabilitymgr",
+        "components": [
+          { "component": "samgr_lite", "features":[] }
+        ]
+      },     
+      {
+        "subsystem": "startup",
+        "components": [
+          { "component": "bootstrap_lite", "features":[] },
+          {
+            "component": "init_lite",
+            "features": [
+              "enable_ohos_startup_init_feature_begetctl_liteos = true"
+            ]
+          }
+        ]
+      },
+      {
+        "subsystem": "security",
+        "components": [
+          { "component": "huks", "features":
+            [
+              "huks_use_lite_storage = true",
+              "huks_use_hardware_root_key = true",
+              "huks_config_file = \"hks_config_lite.h\""
+            ]
+          }
+        ]
+      }
+    ],
+    "third_party_dir": "",
+    "product_adapter_dir": "//vendor/ohemu/qemu_mini_system_demo/hals"
+  }

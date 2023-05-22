@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2021 Huawei Device Co., Ltd.
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+
+    This is the configuration file template for OpenHarmony OSS Audit Tool, please copy it to your project root dir and modify it refer to OpenHarmony/tools_oat/README.
+
+-->
+
+<configuration>
+    <oatconfig>
+        <licensefile></licensefile>
+        <policylist>
+            <policy name="projectPolicy" desc="">
+                <policyitem type="copyright" name="Huawei Technologies Co., Ltd. All rights reserved." path=".*" desc="original liteos copyright"/>
+                <policyitem type="license" name="BSD-3-Clause" path=".*" desc="Liteos kernel use bsd3 license"/>
+            </policy>
+        </policylist>
+        <filefilterlist>
+            <filefilter name="defaultFilter" desc="Files not to check">
+                <!--filteritem type="filename" name="*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
+                <!--filteritem type="filepath" name="abcdefg/.*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
+                <!--filteritem type="filepath" name="projectroot/[a-zA-Z0-9]{20,}.sh" desc="Temp files"/-->
+            </filefilter>
+            <filefilter name="defaultPolicyFilter" desc="Filters for compatibility，license header policies">
+                <!--filteritem type="filename" name="*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
+                <!--filteritem type="filepath" name="abcdefg/.*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
+                <!--filteritem type="filepath" name="projectroot/[a-zA-Z0-9]{20,}.sh" desc="Temp files"/-->
+            </filefilter>
+            <filefilter name="copyrightPolicyFilter" desc="Filters for copyright header policies">
+                <!--filteritem type="filename" name="*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
+                <!--filteritem type="filepath" name="abcdefg/.*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
+                <!--filteritem type="filepath" name="projectroot/[a-zA-Z0-9]{20,}.sh" desc="Temp files"/-->
+            </filefilter>
+            <filefilter name="licenseFileNamePolicyFilter" desc="Filters for LICENSE file policies">
+                <!--filteritem type="filename" name="*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
+                <!--filteritem type="filepath" name="abcdefg/.*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
+                <!--filteritem type="filepath" name="projectroot/[a-zA-Z0-9]{20,}.sh" desc="Temp files"/-->
+            </filefilter>
+            <filefilter name="readmeFileNamePolicyFilter" desc="Filters for README file policies">
+                <!--filteritem type="filename" name="*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
+                <!--filteritem type="filepath" name="abcdefg/.*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
+                <!--filteritem type="filepath" name="projectroot/[a-zA-Z0-9]{20,}.sh" desc="Temp files"/-->
+            </filefilter>
+            <filefilter name="readmeOpenSourcefileNamePolicyFilter" desc="Filters for README.OpenSource file policies">
+                <!--filteritem type="filename" name="*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
+                <!--filteritem type="filepath" name="abcdefg/.*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
+                <!--filteritem type="filepath" name="projectroot/[a-zA-Z0-9]{20,}.sh" desc="Temp files"/-->
+            </filefilter>
+            <filefilter name="binaryFileTypePolicyFilter" desc="qemu默认文件">
+                <filteritem type="filepath" name="qemu_xtensa_mini_system_demo/image/bootloader.bin" desc="qemu默认文件"/>
+                <filteritem type="filepath" name="qemu_xtensa_mini_system_demo/image/partition-table.bin" desc="qemu默认分区文件"/>
+                <filteritem type="filepath" name="qemu_riscv32_mini_system_demo/fs-storage.img" desc="qemu_riscv32默认文件系统镜像"/>
+                <filteritem type="filepath" name="qemu_riscv32_mini_system_demo/fs_data/data/data/js/common/cloud_red.bin" desc="qemu_riscv32 lfs需要打包到文件系统的文件"/>
+                <filteritem type="filepath" name="qemu_riscv32_mini_system_demo/fs_data/data/data/panel/common/icons8-curtains-64.bin" desc="qemu_riscv32 lfs需要打包到文件系统的文件"/>
+                <filteritem type="filepath" name="qemu_riscv32_mini_system_demo/fs_data/data/data/js/common/cloud_yellow.bin" desc="qemu_riscv32 lfs需要打包到文件系统的文件"/>
+                <filteritem type="filepath" name="qemu_riscv32_mini_system_demo/fs_data/data/data/panel/common/icons8-fridge-64.bin" desc="qemu_riscv32 lfs需要打包到文件系统的文件"/>
+                <filteritem type="filepath" name="qemu_riscv32_mini_system_demo/fs_data/data/data/js/common/week.bin" desc="qemu_riscv32 lfs需要打包到文件系统的文件"/>
+                <filteritem type="filepath" name="qemu_riscv32_mini_system_demo/fs_data/data/data/panel/common/icons8-light-64.bin" desc="qemu_riscv32 lfs需要打包到文件系统的文件"/>
+                <filteritem type="filepath" name="qemu_riscv32_mini_system_demo/fs_data/data/data/panel/common/icons8-myspace-64.bin" desc="qemu_riscv32 lfs需要打包到文件系统的文件"/>
+                <filteritem type="filepath" name="qemu_riscv32_mini_system_demo/fs_data/data/data/panel/common/icons8-sun-64.bin" desc="qemu_riscv32 lfs需要打包到文件系统的文件"/>
+                <filteritem type="filepath" name="qemu_riscv32_mini_system_demo/fs_data/data/data/panel/common/icons8-workday-64.bin" desc="qemu_riscv32 lfs需要打包到文件系统的文件"/>
+                <filteritem type="filepath" name="qemu_riscv32_mini_system_demo/fs_data/data/data/font.ttf" desc="qemu_riscv32 lfs需要打包到文件系统的文件"/>
+                <filteritem type="filepath" name="qemu_riscv32_mini_system_demo/fs_data/data/data/panel/common/icons8-air-conditioner-64.bin" desc="qemu_riscv32 lfs需要打包到文件系统的文件"/>
+                <filteritem type="filepath" name="qemu_riscv32_mini_system_demo/fs_data/data/data/js/common/cloud_green.bin" desc="qemu_riscv32 lfs需要打包到文件系统的文件"/>
+                <filteritem type="filepath" name="qemu_riscv32_mini_system_demo/fs_data/data/data/panel/common/icons8-candle-64.bin" desc="qemu_riscv32 lfs需要打包到文件系统的文件"/>
+                <!--filteritem type="filepath" name="abcdefg/.*.uvwxyz" desc="Describe the reason for filtering scan results"/-->
+                <!--filteritem type="filepath" name="projectroot/[a-zA-Z0-9]{20,}.sh" desc="Temp files"/-->
+            </filefilter>
+
+        </filefilterlist>
+        <licensematcherlist>
+            <!--licensematcher name="uvwxyz License" desc="If the scanning result is InvalidLicense, you can define matching rules here. Note that quotation marks must be escaped.">
+                <licensetext name="
+                    uvwxyz license textA xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                " desc=""/>
+                <licensetext name="
+                    uvwxyz license textB xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                " desc=""/>
+            </licensematcher-->
+        </licensematcherlist>
+    </oatconfig>
+</configuration>

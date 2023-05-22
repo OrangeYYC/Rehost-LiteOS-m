@@ -1,0 +1,63 @@
+# Copyright (c) 2021-2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# args of this module
+SUBSYSTEM_DIR = "//foundation/communication"
+NETMANAGER_BASE_ROOT = "$SUBSYSTEM_DIR/netmanager_base"
+NETMANAGER_EXT_ROOT = "$SUBSYSTEM_DIR/netmanager_ext"
+
+# args of frameworks
+NETCONNMANAGER_INNERKITS_SOURCE_DIR =
+    "$NETMANAGER_BASE_ROOT/frameworks/native/netconnclient"
+NETPOLICYMANAGER_INNERKITS_SOURCE_DIR =
+    "$NETMANAGER_BASE_ROOT/frameworks/native/netpolicyclient"
+NETSTATSMANAGER_INNERKITS_SOURCE_DIR =
+    "$NETMANAGER_BASE_ROOT/frameworks/native/netstatsclient"
+NETSYSNATIVE_INNERKITS_SOURCE_DIR =
+    "$NETMANAGER_BASE_ROOT/frameworks/native/netmanagernative"
+
+# args of interfaces
+INNERKITS_ROOT = "$NETMANAGER_BASE_ROOT/interfaces/innerkits"
+
+# args of services
+NETMANAGERNATIVE_ROOT = "$NETMANAGER_BASE_ROOT/services/netmanagernative"
+NETCONNMANAGER_SOURCE_DIR = "$NETMANAGER_BASE_ROOT/services/netconnmanager"
+NETPOLICYMANAGER_SOURCE_DIR = "$NETMANAGER_BASE_ROOT/services/netpolicymanager"
+NETSTATSMANAGER_SOURCE_DIR = "$NETMANAGER_BASE_ROOT/services/netstatsmanager"
+NETCONNMANAGER_COMMON_DIR = "$NETMANAGER_BASE_ROOT/services/common"
+FWMARK_CLIENT_DIR = "$NETMANAGERNATIVE_ROOT/fwmarkclient"
+NETSTATSMANAGER_BPFLIB_DIR = "$NETMANAGER_BASE_ROOT/services/netsys_bpf_stats"
+NETSYSNATIVE_SOURCE_DIR = "$NETMANAGER_BASE_ROOT/services/netmanagernative"
+NETSYSBPFMAP_SOURCE_DIR = "$NETSYSNATIVE_SOURCE_DIR/netsys_bpf_map"
+NETSYSCONTROLLER_ROOT_DIR = "$NETMANAGER_BASE_ROOT/services/netsyscontroller"
+ETHERNETMANAGER_SOURCE_DIR = "$NETMANAGER_EXT_ROOT/services/ethernetmanager"
+
+# args of other module
+THIRD_PARTY_ROOT = "//third_party"
+UTILS_ROOT = "//utils"
+HILOG_ROOT = "//base/hiviewdfx/hilog"
+TELEPHONY_ROOT = "//base/telephony"
+C_UTILS_ROOT = "//commonlibrary/c_utils"
+ARKUI_ROOT = "//foundation/arkui"
+WIFI_MANAGER_ROOT = "//foundation/communication/wifi/wifi"
+DHCP_MANAGER_ROOT = "//foundation/communication/dhcp"
+SAMGR_MANAGER_ROOT = "//foundation/systemabilitymgr/samgr"
+SAMGR_INTERFACE_ROOT_DIR = "//foundation/systemabilitymgr/samgr/interfaces"
+
+use_js_debug = false
+declare_args() {
+  enable_netmgr_debug = true
+  enable_sys_func = true
+  enable_elfio = true
+  enable_server_support_ipv6 = false
+}

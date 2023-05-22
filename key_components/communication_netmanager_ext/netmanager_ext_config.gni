@@ -1,0 +1,82 @@
+# Copyright (c) 2021-2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# args of this module
+SUBSYSTEM_DIR = "//foundation/communication"
+NETMANAGER_EXT_ROOT = "$SUBSYSTEM_DIR/netmanager_ext"
+
+# args of frameworks
+FRAMEWORKS_SRC = "$NETMANAGER_EXT_ROOT/frameworks/native/externalvpnclient/src"
+ETHERNETMANAGER_INNERKITS_SOURCE_DIR =
+    "$NETMANAGER_EXT_ROOT/frameworks/native/ethernetclient"
+NETWORKSHAREMANAGER_INNERKITS_SOURCE_DIR =
+    "$NETMANAGER_EXT_ROOT/frameworks/native/netshareclient"
+
+# args of interfaces
+INTERFACES_INCLUDE =
+    "$NETMANAGER_EXT_ROOT/interfaces/innerkits/externalvpnclient/include"
+INTERFACES_DIR = "$NETMANAGER_EXT_ROOT/interfaces/innerkits/externalvpnclient"
+EXT_INNERKITS_ROOT = "$NETMANAGER_EXT_ROOT/interfaces/innerkits"
+MDNSINTERFACE_INCLUDE = "$NETMANAGER_EXT_ROOT/interfaces/innerkits/mdnsclient"
+
+# args of services
+SERVICES_EXTERNALVPNMANAGER = "$NETMANAGER_EXT_ROOT/services/externalvpnmanager"
+ETHERNETMANAGER_SOURCE_DIR = "$NETMANAGER_EXT_ROOT/services/ethernetmanager"
+NETWORKSHAREMANAGER_SOURCE_DIR =
+    "$NETMANAGER_EXT_ROOT/services/networksharemanager"
+MDNSMANAGER_SOURCE_DIR = "$NETMANAGER_EXT_ROOT/services/mdnsmanager"
+
+# args of uitls
+NETWORKSHAREMANAGER_UTILS_DIR = "$NETMANAGER_EXT_ROOT/utils"
+
+# args of base module
+NETMANAGER_BASE_ROOT = "$SUBSYSTEM_DIR/netmanager_base"
+
+# args of base modules'frameworks
+NETCONNMANAGER_INNERKITS_SOURCE_DIR =
+    "$NETMANAGER_BASE_ROOT/frameworks/native/netconnclient"
+
+# args of base modules' interfaces
+BASE_INNERKITS_ROOT = "$NETMANAGER_BASE_ROOT/interfaces/innerkits"
+
+# args of base module's services
+NETCONNMANAGER_COMMON_DIR = "$NETMANAGER_BASE_ROOT/services/common"
+NETSYSCONTROLLER_ROOT_DIR = "$NETMANAGER_BASE_ROOT/services/netsyscontroller"
+NETCONNMANAGER_SOURCE_DIR = "$NETMANAGER_BASE_ROOT/services/netconnmanager"
+NETMANAGERNATIVE_ROOT = "$NETMANAGER_BASE_ROOT/services/netmanagernative"
+NETSYSCONTROLLER_ROOT_DIR = "$NETMANAGER_BASE_ROOT/services/netsyscontroller"
+
+# args of base module's utils
+NETCONNMANAGER_UTILS_DIR = "$NETMANAGER_BASE_ROOT/utils"
+
+# NETMANAGER_PREBUILTS_DIR = "$NETMANAGER_BASE_ROOT/prebuilts"
+
+# args of other module
+DHCP_MANAGER_ROOT = "//foundation/communication/dhcp"
+WIFI_MANAGER_ROOT = "//foundation/communication/wifi/wifi"
+WIFI_MANAGER_INNERKITS_DIR = "$WIFI_MANAGER_ROOT/interfaces/kits/c"
+WIFI_FRAMEWORK_NATIVE_INCLUDE = "$WIFI_MANAGER_ROOT/frameworks/native/include"
+BLUETOOTH_ROOT = "//foundation/communication/bluetooth"
+USB_MANAGER_ROOT = "//base/usb/usb_manager"
+SAMGR_MANAGER_ROOT = "//foundation/systemabilitymgr/samgr"
+UTILS_ROOT = "//utils"
+THIRD_PARTY_ROOT = "//third_party"
+C_UTILS_ROOT = "//commonlibrary/c_utils"
+
+use_js_debug = false
+declare_args() {
+  enable_netmgr_ext_debug = true
+  netmanager_ext_feature_ethernet = true
+  netmanager_ext_feature_share = true
+  netmanager_ext_feature_mdns = true
+}

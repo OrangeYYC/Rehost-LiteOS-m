@@ -1,0 +1,216 @@
+#!/bin/bash
+
+#Copyright (c) 2020-2021 Huawei Device Co., Ltd.
+#Licensed under the Apache License, Version 2.0 (the "License");
+#you may not use this file except in compliance with the License.
+#You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+#Unless required by applicable law or agreed to in writing, software
+#distributed under the License is distributed on an "AS IS" BASIS,
+#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#See the License for the specific language governing permissions and
+#limitations under the License.
+
+set -e
+
+product_path=`hb env|grep 'product path:'`
+product_path=${product_path:26}
+kernel_type=`hb env|grep 'kernel:'`
+kernel_type=${kernel_type:20}
+board=`hb env|grep 'board:'`
+board=${board:19}
+product=`hb env|grep 'product:'`
+product=${product:21}
+
+real_cmd="${product_path}/qemu_run.sh"
+if [[ ! -x "${real_cmd}" ]]; then
+    echo -e "Failed: ${real_cmd}"
+    echo -e "Using 'hb set' to choose supported QEMU board\n"
+    exit
+fi
+echo -e "board: ${board}\n"
+
+rebuild_image="no"
+net_enable="no"
+vnc_enable="yes"
+add_boot_args="no"
+boot_args="no"
+gdb_enable="no"
+qemu_test="no"
+test_file="out/$board/$product/test_result.txt"
+elf_file="Invalid"
+qemu_help="no"
+
+################### qemu-run options #############################
+help_info=$(cat <<-END
+Usage: qemu-run [OPTION]...
+Run a OHOS image in qemu according to the options.
+
+    Options:
+
+    -e,  --exec file_name           kernel exec file name
+    -f,  --force                    rebuild exec file
+    -l,  --local-desktop            no VNC
+    -b,  --bootargs boot_arguments  additional boot arguments(-bk1=v1,k2=v2...)
+    -n,  --net-enable               enable net
+    -g,  --gdb                      enable gdb for kernel
+    -t,  --test                     test mode, exclusive with -g
+    -h,  --help                     print help info
+END
+)
+
+############################## main ##############################
+ARGS=`getopt -o e:b:flngth -l force,net-enable,local-desktop,bootargs:,exec:,gdb,test,help -n "$0" -- "$@"`
+if [ $? != 0 ]; then
+    echo "Try '$0 --help' for more information."
+    exit 1
+fi
+eval set --"${ARGS}"
+
+while true;do
+    case "${1}" in
+        -e|--exec)
+        elf_file="${2}"
+        shift;
+        shift;
+        ;;
+        -f|--force)
+        rebuild_image=yes
+        shift;
+        ;;
+        -l|--local-desktop)
+        vnc_enable=no
+        shift;
+        ;;
+        -b|--bootargs)
+        add_boot_args=yes
+        boot_args="${2}"
+        shift;
+        shift;
+        ;;
+        -n|--net-enable)
+        net_enable=yes
+        shift;
+        ;;
+        -t|--test)
+        qemu_test="test"
+        shift;
+        ;;
+        -g|--gdb)
+        gdb_enable=yes
+        shift;
+        echo -e "Qemu kernel gdb enable..."
+        ;;
+        -h|--help)
+        shift;
+        qemu_help=yes
+        break;
+        ;;
+        --)
+        shift;
+        break;
+        ;;
+    esac
+done
+
+if [ "$qemu_test" = "test" ] && [ "$gdb_enable" = "yes" ]; then
+  echo "Error: '-g' '-t' options cannot be used together"
+  exit 2
+fi
+
+############### qemu test #########################
+function test_success() {
+    echo "Test success!!!"
+    exit 0
+}
+
+function test_failed() {
+    cat $test_file
+    echo "Test failed!!!"
+    exit 1
+}
+
+function start_qemu_test() {
+    if [ "$kernel_type" = "liteos_m" ]; then
+        if [ ! -f "$test_file" ]; then
+            test_failed
+        else
+            result=`tail -1 $test_file`
+            if [ "$result" != "--- Test End ---" ]; then
+                test_failed
+            fi
+            result=`tail -2 $test_file`
+            failedresult=${result%,*}
+            failed=${failedresult%:*}
+            if [ "$failed" != "failed count" ]; then
+                test_failed
+            fi
+            failedcount=${failedresult#*:}
+            if [ "$failedcount" = "0" ]; then
+                test_success
+            else
+                test_failed
+            fi
+       fi
+    else
+        echo "The kernel does not support the -t/--test option!";
+    fi
+}
+
+function kill_specified_process(){
+    qemu_name=$1
+    while true
+    do
+        pid=`ps -ef | grep $qemu_name | grep -v grep | awk '{print $2}' | head -n 1`
+        if [ "$pid" == "" ]; then
+            break
+        fi
+        kill -15 $pid
+    done
+}
+
+function start_qemu_monitor() {
+    if [ "$kernel_type" = "liteos_m" ]; then
+        kill_specified_process qemu_mini_test_
+        kill_specified_process qemu-system-
+        ./vendor/ohemu/common/qemu_mini_test_monitor.sh $test_file &
+    fi
+}
+
+######### qemu_run.sh parameters ######
+# The order of parameters has strict requirements #
+qemu_parameters="\
+ $elf_file \
+ $rebuild_image \
+ $vnc_enable \
+ $add_boot_args $boot_args \
+ $net_enable \
+ $gdb_enable \
+ $qemu_test $test_file \
+ $qemu_help"
+
+function start_qemu() {
+    set +e
+    if [ $qemu_help = no ]; then
+        read -t 5 -p "Enter to start qemu[y/n]:" flag
+        set -e
+        start=${flag:-y}
+    fi
+    if [ $qemu_help = yes ] || [ ${start} = y ]; then
+        if [ "$qemu_test" = "test" ]; then
+            start_qemu_monitor
+        fi
+
+        $real_cmd $qemu_parameters
+
+        if [ "$qemu_test" = "test" ]; then
+            start_qemu_test
+        fi
+    else
+        echo "Exit qemu-run"
+    fi
+}
+
+start_qemu

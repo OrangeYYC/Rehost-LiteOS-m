@@ -1,0 +1,88 @@
+# Copyright (C) 2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+domain: NETMANAGER
+
+NET_CONN_SUPPLER_FAULT:
+  __BASE: {type: FAULT, level: CRITICAL, desc: send supplier fault event}
+  UPDATE_SUPPLIERID: {type: INT32, desc: update supplier id}
+  UPDATE_SUPPLIERINFO: {type: STRING, desc: update supplier info}
+  UPDATE_NETLINKID: {type: INT32, desc: update netlink id}
+  UPDATE_NETLINKINFO: {type: STRING, desc: update netlink info}
+  ERROR_TYPE: {type: INT32, desc: the error code}
+  ERROR_MSG: {type: STRING, desc: the error message}
+
+NET_CONN_SUPPLER_STAT:
+  __BASE: {type: BEHAVIOR, level: MINOR, desc: send supplier behavior event}
+  REGISTER_BEARERTYPE: {type: INT32, desc: register bearer type code}
+  REGISTER_IDENT: {type: STRING, desc: register ident code}
+  REGISTER_SUPPLIERID: {type: INT32, desc: register supplier id}
+  UPDATE_SUPPLIERID: {type: INT32, desc: update supplier info}
+  UPDATE_SUPPLIERINFO: {type: STRING, desc: update supplier info}
+  UPDATE_NETLINKID: {type: INT32, desc: update netlink id}
+  UPDATE_NETLINKINFO: {type: STRING, desc: update netlink info}
+  ERROR_TYPE: {type: INT32, desc: the error code}
+  ERROR_MSG: {type: STRING, desc: the error message}
+
+NET_CONN_REQUEST_FAULT:
+  __BASE: {type: FAULT, level: CRITICAL, desc: send request fault event}
+  CAPABILITIES: {type: STRING, desc: capabilities info}
+  SUPPLIERIDENT: {type: STRING, desc: request supplier ident}
+  ERROR_TYPE: {type: INT32, desc: the error code}
+  ERROR_MSG: {type: STRING, desc: the error message}
+
+NET_CONN_REQUEST_STAT:
+  __BASE: {type: BEHAVIOR, level: MINOR, desc: send request behavior event}
+  CAPABILITIES: {type: STRING, desc: capabilities info}
+  SUPPLIERIDENT: {type: STRING, desc: request supplier ident}
+  CALLBACK_AVAILABLE: {type: STRING, desc: the callback available}
+
+NET_CONN_MONITOR_FAULT:
+  __BASE: {type: FAULT, level: CRITICAL, desc: send monitor fault event}
+  SOCKETFD: {type: INT32, desc: monitor socket fd}
+  NETID: {type: INT32, desc: monitor network id}
+  ERROR_TYPE: {type: INT32, desc: the error code}
+  ERROR_MSG: {type: STRING, desc: the error message}
+
+NET_CONN_MONITOR_STAT:
+  __BASE: {type: BEHAVIOR, level: MINOR, desc: send monitor behavior event}
+  STATUS: {type: INT32, desc: monitor status}
+
+NET_SHARING_SETUP_FAULT:
+  __BASE: {type: FAULT, level: CRITICAL, desc: send setup fault event}
+  SHARING_TYPE: {type: INT32, desc: the type of sharing}
+  OPERATION_TYPE: {type: INT32, desc: the operation type}
+  ERROR_TYPE: {type: INT32, desc: the error code}
+  ERROR_MSG: {type: STRING, desc: the error message}
+
+NET_SHARING_CANCEL_FAULT:
+  __BASE: {type: FAULT, level: CRITICAL, desc: send cancel fault event}
+  SHARING_TYPE: {type: INT32, desc: the type of sharing}
+  OPERATION_TYPE: {type: INT32, desc: the operation type}
+  ERROR_TYPE: {type: INT32, desc: the error code}
+  ERROR_MSG: {type: STRING, desc: the error message}
+
+NET_SHARING_TIME_STAT:
+  __BASE: {type: BEHAVIOR, level: MINOR, desc: sharing state message}
+  SHARING_COUNT: {type: INT32, desc: the number of sharing}
+  SHARING_TYPE: {type: INT32, desc: the type of sharing}
+ 
+NET_MDNS_REQUEST_FAULT:
+  __BASE: {type: FAULT, level: CRITICAL, desc: send request fault event}
+  INFO: {type: STRING, desc: mDNS info}
+  ERROR_TYPE: {type: INT32, desc: the error code}
+  ERROR_MSG: {type: STRING, desc: the error message}
+
+NET_MDNS_REQUEST_BEHAVIOR:
+  __BASE: {type: BEHAVIOR, level: MINOR, desc: send request behavior event}
+  INFO: {type: STRING, desc: mDNS info}

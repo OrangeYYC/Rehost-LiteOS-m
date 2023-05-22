@@ -1,0 +1,6 @@
+.idea
+cmake-build-debug
+*.patch
+@ohos.net.connection.d.ts
+basic.d.ts
+.vscode

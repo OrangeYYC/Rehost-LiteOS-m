@@ -1,0 +1,90 @@
+# Copyright (c) 2021 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("//foundation/communication/netmanager_base/netmanager_base_config.gni")
+
+ohos_shared_library("net_conn_manager") {
+  sources = [
+    "$NETCONNMANAGER_COMMON_DIR/src/route_utils.cpp",
+    "src/net_activate.cpp",
+    "src/net_caps.cpp",
+    "src/net_conn_event_handler.cpp",
+    "src/net_conn_service.cpp",
+    "src/net_conn_service_iface.cpp",
+    "src/net_http_proxy_tracker.cpp",
+    "src/net_monitor.cpp",
+    "src/net_score.cpp",
+    "src/net_supplier.cpp",
+    "src/network.cpp",
+    "src/stub/net_conn_callback_proxy.cpp",
+    "src/stub/net_conn_service_stub.cpp",
+    "src/stub/net_detection_callback_proxy.cpp",
+    "src/stub/net_supplier_callback_proxy.cpp",
+  ]
+
+  include_dirs = [
+    "include",
+    "include/stub",
+    "$INNERKITS_ROOT/include",
+    "$INNERKITS_ROOT/netconnclient/include",
+    "$INNERKITS_ROOT/netconnclient/include/proxy",
+    "$INNERKITS_ROOT/netstatsclient/include",
+    "$NETCONNMANAGER_COMMON_DIR/include",
+    "$NETSYSNATIVE_SOURCE_DIR/include/netsys",
+    "$NETSYSCONTROLLER_ROOT_DIR/include",
+    "$NETMANAGER_BASE_ROOT/services/netmanagernative/fwmarkclient/include",
+    "$INNERKITS_ROOT/netmanagernative/include",
+    "$SAMGR_MANAGER_ROOT/interfaces/innerkits/samgr_proxy/include",
+  ]
+
+  deps = [
+    "$NETCONNMANAGER_COMMON_DIR:net_service_common",
+    "$NETMANAGER_BASE_ROOT/services/netmanagernative/fwmarkclient:fwmark_client",
+    "$NETMANAGER_BASE_ROOT/utils:net_manager_common",
+    "$NETSYSCONTROLLER_ROOT_DIR:netsys_controller",
+    "$THIRD_PARTY_ROOT/jsoncpp:jsoncpp",
+  ]
+
+  external_deps = [
+    "c_utils:utils",
+    "common_event_service:cesfwk_innerkits",
+    "eventhandler:libeventhandler",
+    "hisysevent_native:libhisysevent",
+    "init:libbegetutil",
+    "ipc:ipc_core",
+    "safwk:system_ability_fwk",
+  ]
+
+  defines = [
+    "NETMGR_LOG_TAG = \"NetConnManager\"",
+    "LOG_DOMAIN = 0xD0015B0",
+  ]
+
+  if (enable_netmgr_debug) {
+    defines += [ "NETMGR_DEBUG" ]
+  }
+
+  if (enable_sys_func) {
+    defines += [ "SYS_FUNC" ]
+  }
+
+  if (is_standard_system) {
+    external_deps += [ "hiviewdfx_hilog_native:libhilog" ]
+  } else {
+    external_deps += [ "hilog:libhilog" ]
+  }
+
+  part_name = "netmanager_base"
+  subsystem_name = "communication"
+}

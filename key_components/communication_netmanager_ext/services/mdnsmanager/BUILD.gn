@@ -1,0 +1,70 @@
+# Copyright (C) 2023 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("//foundation/communication/netmanager_ext/netmanager_ext_config.gni")
+
+ohos_shared_library("mdns_manager") {
+  sources = [
+    "src/mdns_manager.cpp",
+    "src/mdns_service.cpp",
+    "src/protocol/mdns_packet_parser.cpp",
+    "src/protocol/mdns_protocol_impl.cpp",
+    "src/protocol/mdns_socket_listener.cpp",
+    "src/stub/mdns_event_proxy.cpp",
+    "src/stub/mdns_service_stub.cpp",
+  ]
+
+  include_dirs = [
+    "$BASE_INNERKITS_ROOT/include",
+    "$EXT_INNERKITS_ROOT/mdnsclient/include",
+    "$EXT_INNERKITS_ROOT/mdnsclient/include/proxy",
+    "$EXT_INNERKITS_ROOT/include",
+    "$NETMANAGER_BASE_ROOT/utils/errorcode_utils/include",
+    "include",
+    "include/stub",
+    "include/protocol",
+  ]
+
+  deps = [
+    "$EXT_INNERKITS_ROOT/mdnsclient:mdns_parcel",
+    "$NETMANAGER_BASE_ROOT/utils:net_manager_common",
+    "$NETMANAGER_EXT_ROOT/utils:net_manager_ext_common",
+  ]
+
+  external_deps = [
+    "ability_base:want",
+    "c_utils:utils",
+    "hisysevent_native:libhisysevent",
+    "ipc:ipc_core",
+    "safwk:system_ability_fwk",
+  ]
+
+  defines = [
+    "NETMGR_LOG_TAG = \"MDnsManager\"",
+    "LOG_DOMAIN = 0xD0015B0",
+  ]
+
+  if (enable_netmgr_ext_debug) {
+    defines += [ "NETMGR_DEBUG" ]
+  }
+
+  if (is_standard_system) {
+    external_deps += [ "hiviewdfx_hilog_native:libhilog" ]
+  } else {
+    external_deps += [ "hilog:libhilog" ]
+  }
+
+  part_name = "netmanager_ext"
+  subsystem_name = "communication"
+}

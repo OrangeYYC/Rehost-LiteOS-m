@@ -1,0 +1,49 @@
+# Copyright (c) 2021~2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("//foundation/communication/netstack/netstack_config.gni")
+
+group("common_utils") {
+  deps = [
+    ":stack_utils_common",
+    "napi_utils:napi_utils",
+  ]
+}
+
+config("stack_utils_common_public_config") {
+  include_dirs = [
+    "common_utils/include",
+    "log/include",
+    "$THIRD_PARTY_ROOT/curl/include",
+  ]
+  if (product_name == "ohcore") {
+    defines = [ "OH_CORE_NETSTACK_PERMISSION_CHECK" ]
+  }
+}
+
+ohos_shared_library("stack_utils_common") {
+  sources = [ "common_utils/src/netstack_common_utils.cpp" ]
+
+  public_configs = [ ":stack_utils_common_public_config" ]
+
+  deps = [ "$THIRD_PARTY_ROOT/curl:curl_shared" ]
+  external_deps = [
+    "c_utils:utils",
+    "hiviewdfx_hilog_native:libhilog",
+    "napi:ace_napi",
+  ]
+
+  part_name = "netstack"
+  subsystem_name = "communication"
+}

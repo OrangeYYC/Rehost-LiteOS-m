@@ -1,0 +1,79 @@
+# Copyright (c) 2021-2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("//foundation/communication/netmanager_ext/netmanager_ext_config.gni")
+
+group("common_target") {
+  deps = [
+    ":net_event_report",
+    ":net_manager_ext_common",
+  ]
+}
+
+config("netmgr_ext_common_config") {
+  include_dirs = [
+    "log/include",
+    "event_report/include",
+  ]
+}
+
+ohos_shared_library("net_manager_ext_common") {
+  sources = [ "log/src/netmgr_ext_log_wrapper.cpp" ]
+
+  defines = [
+    "NETMGR_EXT_LOG_TAG = \"NetMgrExtCommon\"",
+    "LOG_DOMAIN = 0xD0015B0",
+  ]
+
+  if (is_standard_system) {
+    defines += [ "STANDARD_SYSTEM_ENABLE" ]
+  }
+
+  public_configs = [
+    ":netmgr_ext_common_config",
+    "$C_UTILS_ROOT/base:utils_config",
+  ]
+
+  public_deps = [ "$C_UTILS_ROOT/base:utils" ]
+
+  if (is_double_framework) {
+    cflags_cc = [ "-DCONFIG_DUAL_FRAMEWORK" ]
+  }
+
+  if (is_standard_system) {
+    external_deps = [
+      "c_utils:utils",
+      "hiviewdfx_hilog_native:libhilog",
+    ]
+  } else {
+    external_deps = [
+      "c_utils:utils",
+      "hilog:libhilog",
+    ]
+  }
+
+  part_name = "netmanager_ext"
+  subsystem_name = "communication"
+}
+
+ohos_shared_library("net_event_report") {
+  sources = [ "event_report/src/net_event_report.cpp" ]
+
+  public_configs = [ ":netmgr_ext_common_config" ]
+
+  external_deps = [ "hisysevent_native:libhisysevent" ]
+
+  part_name = "netmanager_ext"
+  subsystem_name = "communication"
+}

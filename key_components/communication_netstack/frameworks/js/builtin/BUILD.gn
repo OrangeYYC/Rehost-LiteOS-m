@@ -1,0 +1,67 @@
+# Copyright (c) 2021-2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/lite/config/component/lite_component.gni")
+import("//build/lite/ndk/ndk.gni")
+import("//foundation/communication/netstack/netstack_config.gni")
+
+http_lite_sources = [
+  "fetch/src/fetch_module.cpp",
+  "fetch/src/http_async_callback.cpp",
+  "fetch/src/http_constant.cpp",
+  "fetch/src/http_request.cpp",
+  "fetch/src/http_request_utils.cpp",
+  "fetch/src/request_data.cpp",
+  "fetch/src/response_data.cpp",
+]
+
+http_lite_include_dirs = [
+  "fetch/include",
+
+  "$THIRD_PARTY_ROOT/curl/include",
+  "$THIRD_PARTY_ROOT/bounds_checking_function/include",
+
+  "$ARKUI_ROOT/ace_engine_lite/interfaces/inner_api/builtin/async",
+  "$ARKUI_ROOT/ace_engine_lite/interfaces/inner_api/builtin/jsi",
+  "$ARKUI_ROOT/ace_engine_lite/interfaces/inner_api/builtin/base",
+
+  "$ARKUI_ROOT/ace_engine_lite/frameworks/common/utils",
+  "$ARKUI_ROOT/ace_engine_lite/frameworks/common/log",
+
+  "$HILOG_LITE_ROOT/interfaces/native/kits",
+  "$ARKUI_ROOT/ace_engine_lite/frameworks/targets/liteos_a",
+]
+
+config("http_lite_config") {
+  include_dirs = http_lite_include_dirs
+  defines = [ "NO_SSL_CERTIFICATION=1" ]
+}
+
+lite_library("http_lite_shared") {
+  target_type = "shared_library"
+  sources = http_lite_sources
+  public_configs = [ ":http_lite_config" ]
+  output_name = "http_lite"
+  deps = [
+    "$ARKUI_ROOT/ace_engine_lite/frameworks/common:ace_common_lite",
+    "$THIRD_PARTY_ROOT/bounds_checking_function:libsec_shared",
+    "$THIRD_PARTY_ROOT/curl:libcurl_shared",
+  ]
+}
+
+ndk_lib("http_lite_ndk") {
+  lib_extension = ".so"
+  deps = [ ":http_lite_shared" ]
+  head_files =
+      [ "//foundation/communication/netstack/http_lite/frameworks/js/builtin" ]
+}

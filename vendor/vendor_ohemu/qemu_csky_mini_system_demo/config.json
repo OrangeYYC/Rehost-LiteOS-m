@@ -1,0 +1,53 @@
+{
+    "product_name": "qemu_csky_mini_system_demo",
+    "ohos_version": "OpenHarmony 3.0",
+    "type":"mini",
+    "version": "3.0",
+    "device_company": "qemu",
+    "board": "SmartL_E802",
+    "kernel_type": "liteos_m",
+    "kernel_version": "3.0.0",
+    "subsystems": [
+      {
+        "subsystem": "kernel",
+        "components": [
+          { "component": "liteos_m" }
+        ]
+      },
+      {
+        "subsystem": "startup",
+        "components": [
+          {
+            "component": "init_lite",
+            "features": [
+              "enable_ohos_startup_init_feature_begetctl_liteos = true",
+              "enable_ohos_startup_init_lite_use_posix_file_api = true"
+            ]
+          }
+        ]
+      },
+      {
+        "subsystem": "commonlibrary",
+        "components": [
+          { "component": "file", "features":[] }
+        ]
+      }
+    ],
+    "vendor_adapter_dir": "//device/qemu/SmartL_E802/adapter",
+    "product_adapter_dir": "//vendor/ohemu/qemu_csky_mini_system_demo/hals",
+    "third_party_dir": "//third_party",
+    "flash_partition_dir": "fs",
+    "ohos_product_type":"",
+    "ohos_manufacture":"",
+    "ohos_brand":"",
+    "ohos_market_name":"",
+    "ohos_product_series":"",
+    "ohos_product_model":"",
+    "ohos_software_model":"",
+    "ohos_hardware_model":"",
+    "ohos_hardware_profile":"",
+    "ohos_serial":"",
+    "ohos_bootloader_version":"",
+    "ohos_secure_patch_level":"",
+    "ohos_abi_list":""
+}

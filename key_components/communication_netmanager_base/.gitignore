@@ -1,0 +1,4 @@
+.idea
+cmake-build-debug
+@ohos.net.http.d.ts
+@ohos.net.socket.d.ts

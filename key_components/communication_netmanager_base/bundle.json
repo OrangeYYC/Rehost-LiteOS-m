@@ -1,0 +1,136 @@
+{
+    "name": "@ohos/netmanager_base",
+    "version": "3.1.0",
+    "description": "net manager service",
+    "publishAs": "code-segment",
+    "homePage": "https://gitee.com/openharmony",
+    "repository": "https://gitee.com/openharmony/communication_netmanager_base",
+    "license": "Apache License 2.0",
+    "language": "",
+    "private": false,
+    "scripts": {},
+    "envs": [],
+    "dirs": [],
+    "author": {},
+    "contributors": [],
+    "segment": {
+        "destPath": "foundation/communication/netmanager_base"
+    },
+    "component": {
+        "name": "netmanager_base",
+        "subsystem": "communication",
+        "syscap": [
+            "SystemCapability.Communication.NetManager.Core"
+        ],
+        "features": [],
+        "adapted_system_type": [
+            "standard"
+        ],
+        "rom": "4.5MB",
+        "ram": "10MB",
+        "hisysevent_config": [
+            "//foundation/communication/netmanager_base/hisysevent.yaml"
+        ],
+        "deps": {
+            "components": [
+                "ipc",
+                "safwk",
+                "hilog_native",
+                "hiviewdfx_hilog_native",
+                "dhcp",
+                "libuv",
+                "netmanager_standard",
+                "eventhandler",
+                "ability_base",
+                "access_token",
+                "hitrace_native",
+                "hisysevent_native",
+                "core_service",
+                "c_utils",
+                "jsoncpp",
+                "samgr",
+                "common_event_service",
+                "napi"
+            ],
+            "third_party": [
+                "curl",
+                "jsoncpp",
+                "sqlite"
+            ]
+        },
+        "build": {
+            "group_type": {
+                "base_group": [],
+                "fwk_group": [
+                    "//foundation/communication/netmanager_base/utils:net_manager_common",
+                    "//foundation/communication/netmanager_base/frameworks/js/napi/connection:connection",
+                    "//foundation/communication/netmanager_base/frameworks/js/napi/network:network",
+                    "//foundation/communication/netmanager_base/frameworks/js/napi/netstats:statistics",
+                    "//foundation/communication/netmanager_base/frameworks/js/napi/netpolicy:policy",
+                    "//foundation/communication/netmanager_base/interfaces/innerkits/netconnclient:net_conn_manager_if",
+                    "//foundation/communication/netmanager_base/interfaces/innerkits/netpolicyclient:net_policy_manager_if",
+                    "//foundation/communication/netmanager_base/interfaces/innerkits/netstatsclient:net_stats_manager_if"
+                ],
+                "service_group": [
+                    "//foundation/communication/netmanager_base/services/netmanagernative:netsys_native_manager",
+                    "//foundation/communication/netmanager_base/services/netmanagernative/fwmarkclient:fwmark_client",
+                    "//foundation/communication/netmanager_base/services/netmanagernative/netsys_client:netsys_client",
+                    "//foundation/communication/netmanager_base/services/netsys_bpf_stats:netsys_bpf_stats",
+                    "//foundation/communication/netmanager_base/services/netsyscontroller:netsys_controller",
+                    "//foundation/communication/netmanager_base/services/netconnmanager:net_conn_manager",
+                    "//foundation/communication/netmanager_base/services/netpolicymanager:net_policy_manager",
+                    "//foundation/communication/netmanager_base/services/netstatsmanager:net_stats_manager",
+                    "//foundation/communication/netmanager_base/services/etc/init:netdetectionurl.conf",
+                    "//foundation/communication/netmanager_base/services/etc/init:netmanager_base.rc",
+                    "//foundation/communication/netmanager_base/services/etc/init:netsysnative.rc",
+                    "//foundation/communication/netmanager_base/services/etc/init:resolv.conf",
+                    "//foundation/communication/netmanager_base/services/etc/init:xtables.lock",
+                    "//foundation/communication/netmanager_base/services/etc/param:netmanager_base.para",
+                    "//foundation/communication/netmanager_base/services/etc/param:netmanager_base.para.dac",
+                    "//foundation/communication/netmanager_base/sa_profile:net_manager_profile"
+                ]
+            },
+            "inner_kits": [
+                {
+                    "type": "so",
+                    "name": "//foundation/communication/netmanager_base/interfaces/innerkits/netconnclient:net_conn_manager_if",
+                    "header": {
+                        "header_files": [
+                            "net_conn_client.h",
+                            "net_link_info.h",
+                            "net_supplier_info.h",
+                            "net_specifier.h",
+                            "route.h"
+                        ],
+                        "header_base": "//foundation/communication/netmanager_base/interfaces/innerkits/netconnclient/include"
+                    }
+                },
+                {
+                    "type": "so",
+                    "name": "//foundation/communication/netmanager_base/interfaces/innerkits/netpolicyclient:net_policy_manager_if",
+                    "header": {
+                        "header_files": [
+                            "net_policy_client.h"
+                        ],
+                        "header_base": "//foundation/communication/netmanager_base/interfaces/innerkits/netpolicyclient/include"
+                    }
+                },
+                {
+                    "type": "so",
+                    "name": "//foundation/communication/netmanager_base/interfaces/innerkits/netstatsclient:net_stats_manager_if",
+                    "header": {
+                        "header_files": [
+                            "net_stats_info.h",
+                            "net_stats_client.h"
+                        ],
+                        "header_base": "//foundation/communication/netmanager_base/interfaces/innerkits/netstatsclient/include"
+                    }
+                }
+            ],
+            "test": [
+                "//foundation/communication/netmanager_base/test:unittest",
+                "//foundation/communication/netmanager_base/test/fuzztest:fuzztest"
+            ]
+        }
+    }
+}

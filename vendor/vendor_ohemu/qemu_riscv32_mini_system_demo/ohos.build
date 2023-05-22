@@ -1,0 +1,10 @@
+{
+  "parts": {
+    "product_qemu_riscv_mini_system_demo": {
+      "module_list": [
+        "//vendor/ohemu/qemu_riscv32_mini_system_demo:qemu_riscv32_mini_system_demo"
+      ]
+    }
+  },
+  "subsystem": "product_qemu_riscv_mini_system_demo"
+}

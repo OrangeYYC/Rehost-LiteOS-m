@@ -1,0 +1,69 @@
+{
+    "name": "@ohos/netstack",
+    "version": "3.1.0",
+    "description": "net stack service",
+    "publishAs": "code-segment",
+    "homePage": "https://gitee.com/openharmony",
+    "repository": "https://gitee.com/openharmony/communication_netstack",
+    "license": "Apache License 2.0",
+    "language": "",
+    "private": false,
+    "scripts": {},
+    "envs": [],
+    "dirs": [],
+    "author": {},
+    "contributors": [],
+    "segment": {
+        "destPath": "foundation/communication/netstack"
+    },
+    "component": {
+        "name": "netstack",
+        "subsystem": "communication",
+        "syscap": [
+            "SystemCapability.Communication.NetStack"
+        ],
+        "features": [],
+        "adapted_system_type": [
+            "standard"
+        ],
+        "rom": "3MB",
+        "ram": "5MB",
+        "deps": {
+            "components": [
+                "huks",
+                "hiviewdfx_hilog_native",
+                "zlib",
+                "c_utils",
+                "jsoncpp",
+                "common",
+                "napi"
+            ],
+            "third_party": [
+                "curl",
+                "node"
+            ]
+        },
+        "build": {
+            "group_type": {
+                "base_group": [
+                    "//foundation/communication/netstack/frameworks/js/napi/http:http",
+                    "//foundation/communication/netstack/frameworks/js/napi/socket:socket",
+                    "//foundation/communication/netstack/frameworks/js/napi/websocket:websocket",
+                    "//foundation/communication/netstack/frameworks/js/napi/fetch:fetch",
+                    "//foundation/communication/netstack/utils:common_utils"
+                ],
+                "fwk_group": [
+                ],
+                "service_group": [
+                ]
+            },
+            "inner_kits": [],
+            "test": [
+                "//foundation/communication/netstack/test/fuzztest/socket:fuzztest",
+                "//foundation/communication/netstack/test/unittest/http/cache:unittest",
+                "//foundation/communication/netstack/test/unittest/tlssocket:unittest",
+                "//foundation/communication/netstack/test/unittest/utils/common_utils:unittest"
+            ]
+        }
+    }
+}

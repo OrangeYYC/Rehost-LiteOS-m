@@ -1,0 +1,63 @@
+{
+    "product_name": "qemu_small_system_demo",
+    "ohos_version": "OpenHarmony 1.0",
+    "version": "3.0",
+    "type": "small",
+    "device_company": "qemu",
+    "board": "arm_virt",
+    "kernel_type": "liteos_a",
+    "kernel_version": "3.0.0",
+    "subsystems": [
+      {
+        "subsystem": "security",
+        "components": [
+          { "component": "device_auth", "features":[] },
+          { "component": "huks", "features":
+            [
+              "huks_config_file = \"hks_config_small.h\""
+            ]
+          }
+        ]
+      },
+      {
+        "subsystem": "hiviewdfx",
+        "components": [
+          { "component": "hilog_featured_lite", "features":[] },
+          { "component": "hidumper_lite", "features":[] }
+        ]
+      },
+      {
+        "subsystem": "startup",
+        "components": [
+          { "component": "bootstrap_lite", "features":[] },
+          { "component": "init_lite", "features":["enable_ohos_startup_init_feature_begetctl_liteos=true"] }
+        ]
+      },
+      {
+        "subsystem": "kernel",
+        "components": [
+          { "component": "liteos_a", "features":[] }
+        ]
+      },
+      {
+        "subsystem": "communication",
+        "components": [
+          { "component": "dsoftbus", "features":[] },
+          { "component": "wpa_supplicant", "features":[] }
+        ]
+      },
+      {
+        "subsystem": "hdf",
+        "components": [
+          { "component": "hdf_core", "features":[] },
+          { "component": "drivers_peripheral_display", "features":[] },
+          { "component": "drivers_peripheral_wlan", "features":[] },
+          { "component": "drivers_peripheral_input", "features":[] },
+          { "component": "drivers_peripheral_sensor", "features":[] },
+          { "component": "drivers_peripheral_vibrator", "features":[] }
+        ]
+      }
+    ],
+    "third_party_dir": "//third_party",
+    "product_adapter_dir": "//vendor/ohemu/qemu_small_system_demo/hals"
+  }

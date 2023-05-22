@@ -1,0 +1,101 @@
+# Copyright (c) 2021-2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("//foundation/communication/netstack/netstack_config.gni")
+
+TLS = "$NETSTACK_NATIVE_ROOT/tls_socket"
+TLS_NAPI = "$NETSTACK_DIR/frameworks/js/napi/tls"
+
+tls_sources = [
+  "$TLS/src/secure_data.cpp",
+  "$TLS/src/socket_error.cpp",
+  "$TLS/src/tls_certificate.cpp",
+  "$TLS/src/tls_configuration.cpp",
+  "$TLS/src/tls_context.cpp",
+  "$TLS/src/tls_key.cpp",
+  "$TLS/src/tls_socket.cpp",
+  "$TLS/src/tls_utils.cpp",
+]
+
+tls_napi_sources = [
+  "$TLS_NAPI/src/context/tls_bind_context.cpp",
+  "$TLS_NAPI/src/context/tls_connect_context.cpp",
+  "$TLS_NAPI/src/context/tls_extra_context.cpp",
+  "$TLS_NAPI/src/context/tls_napi_context.cpp",
+  "$TLS_NAPI/src/context/tls_send_context.cpp",
+  "$TLS_NAPI/src/monitor.cpp",
+  "$TLS_NAPI/src/tlssocket_async_work.cpp",
+  "$TLS_NAPI/src/tlssocket_exec.cpp",
+  "$TLS_NAPI/src/tlssocket_module.cpp",
+]
+
+ohos_shared_library("socket") {
+  include_dirs = [
+    "$TLS/include",
+    "$TLS_NAPI/include",
+    "$TLS_NAPI/include/context",
+    "$NETMANAGER_BASE_ROOT/utils/common_utils/include",
+    "$NETSTACK_INNERKITS_DIR/tls_socket/include",
+    "async_context/include",
+    "async_work/include",
+    "constant/include",
+    "socket_exec/include",
+    "socket_module/include",
+    "options/include",
+    "task_queue/include",
+  ]
+
+  sources = [
+    "async_context/src/bind_context.cpp",
+    "async_context/src/common_context.cpp",
+    "async_context/src/connect_context.cpp",
+    "async_context/src/tcp_extra_context.cpp",
+    "async_context/src/tcp_send_context.cpp",
+    "async_context/src/udp_extra_context.cpp",
+    "async_context/src/udp_send_context.cpp",
+    "async_work/src/socket_async_work.cpp",
+    "options/src/extra_options_base.cpp",
+    "options/src/net_address.cpp",
+    "options/src/socket_remote_info.cpp",
+    "options/src/socket_state_base.cpp",
+    "options/src/tcp_connect_options.cpp",
+    "options/src/tcp_extra_options.cpp",
+    "options/src/tcp_send_options.cpp",
+    "options/src/udp_extra_options.cpp",
+    "options/src/udp_send_options.cpp",
+    "socket_exec/src/socket_exec.cpp",
+    "socket_module/src/socket_module.cpp",
+  ]
+  sources += tls_sources
+  sources += tls_napi_sources
+
+  deps = [
+    "$NETMANAGER_BASE_ROOT/utils:net_manager_common",
+    "$NETSTACK_DIR/utils:stack_utils_common",
+    "$NETSTACK_DIR/utils/napi_utils:napi_utils",
+    "$THIRD_PARTY_ROOT/openssl:libcrypto_shared",
+    "$THIRD_PARTY_ROOT/openssl:libssl_shared",
+  ]
+
+  external_deps = [
+    "c_utils:utils",
+    "hiviewdfx_hilog_native:libhilog",
+    "napi:ace_napi",
+  ]
+
+  relative_install_dir = "module/net"
+  part_name = "netstack"
+  subsystem_name = "communication"
+  defines = [ "OPENSSL_SUPPRESS_DEPRECATED" ]
+}

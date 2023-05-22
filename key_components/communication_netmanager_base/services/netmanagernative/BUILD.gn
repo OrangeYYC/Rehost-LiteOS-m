@@ -1,0 +1,136 @@
+# Copyright (c) 2021-2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("//foundation/communication/netmanager_base/netmanager_base_config.gni")
+
+ohos_shared_library("netsys_native_manager") {
+  sources = [
+    "$NETSYSNATIVE_INNERKITS_SOURCE_DIR/dhcp_result_parcel.cpp",
+    "$NETSYSNATIVE_INNERKITS_SOURCE_DIR/netsys_addr_info_parcel.cpp",
+    "$NETSYSNATIVE_INNERKITS_SOURCE_DIR/netsys_native_service_proxy.cpp",
+    "$NETSYSNATIVE_INNERKITS_SOURCE_DIR/notify_callback_proxy.cpp",
+    "src/dhcp_controller.cpp",
+    "src/manager/bandwidth_manager.cpp",
+    "src/manager/bpf/bpf_map_creator.cpp",
+    "src/manager/bpf/bpf_prog_loader.cpp",
+    "src/manager/conn_manager.cpp",
+    "src/manager/dns_manager.cpp",
+    "src/manager/firewall_manager.cpp",
+    "src/manager/interface_manager.cpp",
+    "src/manager/route_manager.cpp",
+    "src/manager/sharing_manager.cpp",
+    "src/manager/traffic_manager.cpp",
+    "src/netsys/dnsresolv/dns_getaddrinfo.cpp",
+    "src/netsys/dnsresolv/dns_lookup_name.cpp",
+    "src/netsys/dnsresolv/dns_lookup_parse.cpp",
+    "src/netsys/dnsresolv/dns_param_cache.cpp",
+    "src/netsys/dnsresolv/dns_proxy_listen.cpp",
+    "src/netsys/dnsresolv/dns_resolv_config.cpp",
+    "src/netsys/dnsresolv/dns_resolv_listen.cpp",
+    "src/netsys/fwmark_network.cpp",
+    "src/netsys/iptables_wrapper.cpp",
+    "src/netsys/local_network.cpp",
+    "src/netsys/net_manager_native.cpp",
+    "src/netsys/netlink_msg.cpp",
+    "src/netsys/netlink_socket.cpp",
+    "src/netsys/netsys_network.cpp",
+    "src/netsys/netsys_udp_transfer.cpp",
+    "src/netsys/physical_network.cpp",
+    "src/netsys/wrapper/data_receiver.cpp",
+    "src/netsys/wrapper/netlink_manager.cpp",
+    "src/netsys/wrapper/netsys_event_message.cpp",
+    "src/netsys/wrapper/wrapper_decoder.cpp",
+    "src/netsys/wrapper/wrapper_distributor.cpp",
+    "src/netsys/wrapper/wrapper_listener.cpp",
+    "src/netsys_native_service.cpp",
+    "src/netsys_native_service_stub.cpp",
+    "src/notify_callback_stub.cpp",
+  ]
+
+  include_dirs = [
+    "$C_UTILS_ROOT/base/include",
+    "$DHCP_MANAGER_ROOT/interfaces/inner_api/include",
+    "$DHCP_MANAGER_ROOT/interfaces/inner_api/interfaces",
+    "$INNERKITS_ROOT/include",
+    "$NETMANAGER_BASE_ROOT/services/common/include",
+    "$NETMANAGER_BASE_ROOT/utils/common_utils/include",
+    "$INNERKITS_ROOT/netmanagernative/include",
+    "include",
+    "include/manager",
+    "include/netsys",
+    "include/netsys/wrapper",
+    "$C_UTILS_ROOT/base/include",
+    "$DHCP_MANAGER_ROOT/interfaces/inner_api/include",
+    "$DHCP_MANAGER_ROOT/interfaces/inner_api/interfaces",
+    "$SAMGR_MANAGER_ROOT/interfaces/innerkits/samgr_proxy/include",
+    "$FWMARK_CLIENT_DIR/include",
+  ]
+
+  if (build_selinux) {
+    include_dirs += [ "$THIRD_PARTY_ROOT/selinux/libselinux/include/selinux" ]
+  }
+
+  deps = [
+    "$DHCP_MANAGER_ROOT/services/mgr_service:dhcp_manager_service",
+    "$FWMARK_CLIENT_DIR:fwmark_client",
+    "$NETMANAGERNATIVE_ROOT/netsys_client",
+    "$NETMANAGER_BASE_ROOT/utils:net_manager_common",
+    "$THIRD_PARTY_ROOT/iptables:iptables",
+    "$THIRD_PARTY_ROOT/iptables:iptables-restore",
+    "$THIRD_PARTY_ROOT/iptables:iptables-save",
+  ]
+
+  if (build_selinux) {
+    deps += [ "$THIRD_PARTY_ROOT/selinux:libselinux" ]
+  }
+
+  external_deps = [
+    "c_utils:utils",
+    "eventhandler:libeventhandler",
+    "init:libbegetutil",
+    "ipc:ipc_core",
+    "safwk:system_ability_fwk",
+    "samgr:samgr_proxy",
+  ]
+
+  defines = [
+    "NETMGRNATIVE_LOG_TAG = \"NetsysNativeService\"",
+    "LOG_DOMAIN = 0xD0015B0",
+    "NETSYS_CONFIG_DEBUG=0",
+    "DNS_CONFIG_DEBUG=0",
+  ]
+
+  if (build_selinux) {
+    defines += [ "USE_SELINUX" ]
+  }
+
+  public_configs = [ "$NETMANAGER_BASE_ROOT/utils:netmgr_common_config" ]
+
+  if (enable_sys_func) {
+    defines += [ "SYS_FUNC" ]
+  }
+
+  if (enable_server_support_ipv6) {
+    defines += [ "SERVER_SUPPORT_IPV6" ]
+  }
+
+  if (is_standard_system) {
+    external_deps += [ "hiviewdfx_hilog_native:libhilog" ]
+  } else {
+    external_deps += [ "hilog:libhilog" ]
+  }
+
+  part_name = "netmanager_base"
+  subsystem_name = "communication"
+}

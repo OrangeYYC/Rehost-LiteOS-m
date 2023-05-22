@@ -1,0 +1,53 @@
+# Copyright (c) 2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("//foundation/communication/netmanager_ext/netmanager_ext_config.gni")
+
+config("sharing_config") {
+  visibility = [ ":netshare" ]
+  include_dirs = [
+    "include",
+    "$NETMANAGER_BASE_ROOT/utils/log/include",
+  ]
+}
+
+ohos_shared_library("sharing") {
+  sources = [
+    "src/netshare_async_work.cpp",
+    "src/netshare_callback_observer.cpp",
+    "src/netshare_exec.cpp",
+    "src/netshare_issharing_context.cpp",
+    "src/netshare_module.cpp",
+    "src/netshare_observer_wrapper.cpp",
+    "src/netshare_startsharing_context.cpp",
+  ]
+
+  deps = [
+    "$NETMANAGER_BASE_ROOT/utils/napi_utils:napi_utils",
+    "$NETMANAGER_EXT_ROOT/interfaces/innerkits/netshareclient:net_tether_manager_if",
+    "$NETMANAGER_EXT_ROOT/utils:net_manager_ext_common",
+    "$THIRD_PARTY_ROOT/libuv:uv",
+  ]
+
+  external_deps = [
+    "hiviewdfx_hilog_native:libhilog",
+    "ipc:ipc_core",
+  ]
+
+  configs = [ ":sharing_config" ]
+
+  relative_install_dir = "module/net"
+  part_name = "netmanager_ext"
+  subsystem_name = "communication"
+}

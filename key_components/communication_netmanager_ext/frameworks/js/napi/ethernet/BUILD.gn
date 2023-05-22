@@ -1,0 +1,58 @@
+# Copyright (c) 2021-2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("//foundation/communication/netmanager_ext/netmanager_ext_config.gni")
+
+ohos_shared_library("ethernet") {
+  include_dirs = [
+    "context",
+    "$ETHERNETMANAGER_SOURCE_DIR/include",
+    "$ETHERNETMANAGER_SOURCE_DIR/include/ipc",
+    "$NETMANAGER_EXT_ROOT/utils/log/include",
+    "$BASE_INNERKITS_ROOT/ethernetclient/include",
+    "$BASE_INNERKITS_ROOT/netmanagernative/include",
+    "$SAMGR_MANAGER_ROOT/interfaces/innerkits/samgr_proxy/include",
+    "$NETCONNMANAGER_UTILS_DIR/common_utils/include",
+  ]
+
+  sources = [
+    "context/get_all_active_ifaces_context.cpp",
+    "context/get_iface_config_context.cpp",
+    "context/is_iface_active_context.cpp",
+    "context/set_iface_config_context.cpp",
+    "ethernet_async_work.cpp",
+    "ethernet_exec.cpp",
+    "ethernet_module.cpp",
+  ]
+
+  defines = [ "NETMGR_DEBUG" ]
+
+  deps = [
+    "$BASE_INNERKITS_ROOT/netconnclient:net_conn_manager_if",
+    "$EXT_INNERKITS_ROOT/ethernetclient:ethernet_manager_if",
+    "$NETCONNMANAGER_UTILS_DIR:net_manager_common",
+    "$NETMANAGER_BASE_ROOT/utils/napi_utils:napi_utils",
+  ]
+
+  external_deps = [
+    "c_utils:utils",
+    "hiviewdfx_hilog_native:libhilog",
+    "ipc:ipc_core",
+    "napi:ace_napi",
+  ]
+
+  relative_install_dir = "module/net"
+  part_name = "netmanager_ext"
+  subsystem_name = "communication"
+}

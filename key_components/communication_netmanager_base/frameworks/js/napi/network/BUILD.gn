@@ -1,0 +1,61 @@
+# Copyright (c) 2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("//foundation/communication/netmanager_base/netmanager_base_config.gni")
+
+ohos_shared_library("network") {
+  include_dirs = [
+    "async_context/include",
+    "async_work/include",
+    "constant/include",
+    "network_exec/include",
+    "network_module/include",
+    "observer/include",
+    "options/include",
+    "$NETMANAGER_BASE_ROOT/utils/log/include",
+  ]
+
+  sources = [
+    "async_context/src/gettype_context.cpp",
+    "async_context/src/subscribe_context.cpp",
+    "async_context/src/unsubscribe_context.cpp",
+    "async_work/src/network_async_work.cpp",
+    "network_exec/src/network_exec.cpp",
+    "network_module/src/network_module.cpp",
+  ]
+
+  deps = [
+    "$INNERKITS_ROOT/netconnclient:net_conn_manager_if",
+    "$NETMANAGER_BASE_ROOT/utils/napi_utils:napi_utils",
+    "$THIRD_PARTY_ROOT/libuv:uv",
+  ]
+  if (defined(global_parts_info) &&
+      defined(global_parts_info.telephony_core_service) &&
+      global_parts_info.telephony_core_service) {
+    deps += [
+      "$TELEPHONY_ROOT/core_service/interfaces/innerkits:tel_core_service_api",
+    ]
+    defines = [ "HAS_TELEPHONY=1" ]
+  }
+
+  external_deps = [
+    "c_utils:utils",
+    "hiviewdfx_hilog_native:libhilog",
+    "ipc:ipc_core",
+  ]
+
+  relative_install_dir = "module"
+  part_name = "netmanager_base"
+  subsystem_name = "communication"
+}

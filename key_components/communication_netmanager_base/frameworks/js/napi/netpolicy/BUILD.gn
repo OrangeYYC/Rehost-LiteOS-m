@@ -1,0 +1,71 @@
+# Copyright (c) 2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import("//build/ohos.gni")
+import("//foundation/communication/netmanager_base/netmanager_base_config.gni")
+
+config("policy_config") {
+  visibility = [ ":policy" ]
+
+  include_dirs = [
+    "include",
+    "include/context",
+    "$INNERKITS_ROOT/include",
+    "$NETMANAGER_BASE_ROOT/utils/log/include",
+  ]
+
+  cflags = [
+    "-Wall",
+    "-Werror",
+    "-g3",
+  ]
+}
+
+ohos_shared_library("policy") {
+  sources = [
+    "src/context/get_net_quota_policies_context.cpp",
+    "src/context/get_policy_by_uid_context.cpp",
+    "src/context/get_uids_by_policy_context.cpp",
+    "src/context/is_uid_net_allowed_context.cpp",
+    "src/context/restore_all_policies_context.cpp",
+    "src/context/set_bg_policy_context.cpp",
+    "src/context/set_device_idle_allow_list_context.cpp",
+    "src/context/set_net_quota_policies_context.cpp",
+    "src/context/set_policy_by_uid_context.cpp",
+    "src/context/update_remind_policy_context.cpp",
+    "src/net_policy_callback_observer.cpp",
+    "src/netpolicy_async_work.cpp",
+    "src/netpolicy_exec.cpp",
+    "src/netpolicy_module.cpp",
+    "src/policy_observer_wrapper.cpp",
+  ]
+
+  configs = [ ":policy_config" ]
+
+  deps = [
+    "$INNERKITS_ROOT/netpolicyclient:net_policy_manager_if",
+    "$NETMANAGER_BASE_ROOT/utils/napi_utils:napi_utils",
+    "//foundation/arkui/napi/:ace_napi",
+    "//third_party/libuv:uv",
+  ]
+
+  external_deps = [
+    "c_utils:utils",
+    "hiviewdfx_hilog_native:libhilog",
+    "ipc:ipc_core",
+  ]
+  relative_install_dir = "module/net"
+  part_name = "netmanager_base"
+
+  subsystem_name = "communication"
+}

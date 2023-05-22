@@ -1,0 +1,10 @@
+{
+  "parts": {
+    "product_qemu_ca7_mini_system_demo": {
+      "module_list": [
+        "//vendor/ohemu/qemu_ca7_mini_system_demo:qemu_ca7_mini_system_demo"
+      ]
+    }
+  },
+  "subsystem": "product_qemu_ca7_mini_system_demo"
+}

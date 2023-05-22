@@ -1,0 +1,90 @@
+{
+    "product_name": "qemu-arm-linux-min",
+    "type": "standard",
+    "version": "3.0",
+    "device_company": "qemu",
+    "board": "qemu-arm-linux",
+    "target_cpu": "arm",
+    "target_os": "ohos",
+    "enable_ramdisk": true,
+    "support_jsapi": false,
+    "device_build_path": "device/qemu/arm_virt/linux",
+    "subsystems": [
+      {
+        "subsystem": "common",
+        "components": [
+          { "component": "common", "features":[] }
+        ]
+      },
+      {
+        "subsystem": "startup",
+        "components": [
+          { "component": "init", "features":[] }
+        ]
+      },
+      {
+        "subsystem": "hiviewdfx",
+        "components": [
+          { "component": "hiviewdfx_hilog_native", "features":[] },
+          { "component": "hilog_native", "features":[] },
+          { "component": "hilog_service", "features":[] },
+          { "component": "hitrace_native", "features":[] },
+          { "component": "faultloggerd", "features":[] },
+          { "component": "hisysevent_native", "features":[] },
+          { "component": "hichecker_native", "features":[ "hichecker_support_asan=false" ] }
+        ]
+      },
+      {
+        "subsystem": "distributedhardware",
+        "components": [
+          { "component": "device_manager", "features": [] }
+        ]
+      },
+      {
+        "subsystem": "security",
+        "components": [
+          { "component": "device_auth", "features":[] },
+          { "component": "access_token", "features":[] },
+          { "component": "huks", "features": [] }
+        ]
+      },
+      {
+        "subsystem": "commonlibrary",
+        "components": [
+          { "component": "c_utils", "features": [] }
+        ]
+      },
+      {
+        "subsystem": "communication",
+        "components": [
+          { "component": "ipc", "features":[] },
+          { "component": "dsoftbus", "features":["dsoftbus_get_devicename=false"] }
+        ]
+      },
+      {
+        "subsystem": "notification",
+        "components": [
+          { "component": "eventhandler", "features":[] }
+        ]
+      },
+      {
+        "subsystem": "systemabilitymgr",
+        "components": [
+          { "component": "samgr", "features":[] },
+          { "component": "safwk", "features":[] }
+        ]
+      },
+      {
+        "subsystem": "developtools",
+        "components": [
+          { "component": "bytrace", "features":[] },
+          { "component": "hdc", "features":[] }
+        ]
+      },
+      {
+        "subsystem": "securec",
+        "components": [
+        ]
+      }
+    ]
+  }

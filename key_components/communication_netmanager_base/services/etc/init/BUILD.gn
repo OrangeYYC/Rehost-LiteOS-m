@@ -1,0 +1,50 @@
+# Copyright (c) 2021-2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+import("//build/ohos.gni")
+
+## Install netmanager_base.rc/netmanager_base.rc to /system/etc/init
+ohos_prebuilt_etc("netmanager_base.rc") {
+  source = "netmanager_base.cfg"
+  relative_install_dir = "init"
+  part_name = "netmanager_base"
+  subsystem_name = "communication"
+}
+
+## Install netsysnative.rc/netsysnative.rc to /system/etc/init
+ohos_prebuilt_etc("netsysnative.rc") {
+  source = "netsysnative.cfg"
+  relative_install_dir = "init"
+  part_name = "netmanager_base"
+  subsystem_name = "communication"
+}
+
+## Install resolv.conf to /system/etc
+ohos_prebuilt_etc("resolv.conf") {
+  source = "resolv.conf"
+  part_name = "netmanager_base"
+  subsystem_name = "communication"
+}
+
+## Install xtables.lock to /system/etc
+ohos_prebuilt_etc("xtables.lock") {
+  source = "xtables.lock"
+  part_name = "netmanager_base"
+  subsystem_name = "communication"
+}
+
+## Install resolv.conf to /system/etc
+ohos_prebuilt_etc("netdetectionurl.conf") {
+  source = "netdetectionurl.conf"
+  part_name = "netmanager_base"
+  subsystem_name = "communication"
+}
